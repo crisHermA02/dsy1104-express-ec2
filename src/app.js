@@ -1,9 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-const saludoRoutes = require('./routes/saludo.routes');
-const app = express();
-app.use(cors()); // Laboratorio: permitir clientes desde distintos orígenes
-app.use(express.json());
-app.use('/api', saludoRoutes);
-app.use((req, res) => res.status(404).json({ error: 'Ruta no encontrada' }));
-module.exports = app;
+const rutasSaludo = require('./routes/saludo.routes');
+const rutasProductos = require('./routes/producto.routes');
+
+const aplicacion = express();
+aplicacion.use(cors());
+aplicacion.use(express.json());
+
+aplicacion.use('/api', rutasSaludo);
+aplicacion.use('/api', rutasProductos);
+
+aplicacion.use((peticion, respuesta) => respuesta.status(404).json({ error: 'Ruta no encontrada' }));
+module.exports = aplicacion;
